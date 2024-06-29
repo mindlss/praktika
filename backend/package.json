@@ -9,10 +9,9 @@
     "swagger-autogen": "node swagger.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "mindes",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.7.2",
     "body-parser": "^1.20.2",
     "cheerio": "^1.0.0-rc.12",
     "connect-mongo": "^5.1.0",
