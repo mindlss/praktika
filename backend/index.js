@@ -12,9 +12,6 @@ const dev = process.env.NODE_ENV === 'dev';
 // load database
 require('./database');
 
-// load parser
-require('./parser');
-
 const app = express();
 
 app.use(cors());
@@ -24,6 +21,16 @@ app.use(jsonParser);
 const apiRoute = require('./routes/Api');
 
 app.use('/api/', apiRoute);
+
+app.get('/vacancies', async (req, res) => {
+    const { text, perPage, maxPages } = req.query;
+    const vacancies = await headhunterService.getVacancies(
+        text,
+        perPage,
+        maxPages
+    );
+    res.json(vacancies);
+});
 
 // load swagger if dev
 if (dev) {
