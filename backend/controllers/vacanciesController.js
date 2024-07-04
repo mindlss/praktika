@@ -1,6 +1,5 @@
 const headhunterService = require('../services/headhunter');
 const vacancySchema = require('../database/schemas/vacancy');
-const Fuse = require('fuse.js');
 
 class VacanciesController {
     async getVacancies(req, res) {
