@@ -1,0 +1,93 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    max-width: 1000px;
+    width: calc(100vw - 50px);
+    margin-left: 50%;
+    transform: translateX(-50%);
+    min-height: 400px;
+}
+.toaster {
+    font-family: 'MotivaSansRegular', sans-serif;
+    font-size: 17px;
+}
+.id {
+    white-space: nowrap;
+    overflow: hidden;
+    position: absolute;
+    top: 56px;
+    left: -2px;
+    color: #292929;
+    font-family: 'MotivaSansRegular', sans-serif;
+    font-size: 17px;
+    transition: all linear 90ms;
+    &:hover {
+        color: #007acc;
+    }
+    &:active {
+        color: #005d9b;
+    }
+    @media (min-width: 0px) {
+        font-size: 14px;
+    }
+
+    @media (min-width: 376px) {
+        font-size: 15px;
+    }
+
+    @media (min-width: 441px) {
+        font-size: 17px;
+    }
+}
+.content {
+    text-align: center;
+
+    &__header {
+        text-align: center;
+        align-items: center;
+        width: calc(100vw - 50px);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 32px;
+        color: #fff;
+        @media (min-width: 0px) {
+            font-size: 29px;
+        }
+
+        @media (min-width: 376px) {
+            font-size: 32px;
+        }
+    }
+    &__size {
+        margin-top: 8px;
+        color: #292929;
+        font-family: 'MotivaSansRegular', sans-serif;
+        font-size: 17px;
+    }
+    &__download {
+        margin-top: 16px;
+        font-family: 'MotivaSansRegular', sans-serif;
+        font-size: 17px;
+        color: #fff;
+        width: 210px;
+        padding: 10px 0;
+        background-color: #007acc;
+        border-radius: 16px;
+        margin-left: 50%;
+        transform: translateX(-50%);
+        transition: all linear 90ms;
+        cursor: pointer;
+        &:hover {
+            background-color: #005d9c;
+        }
+        &:active {
+            background-color: #00497a;
+        }
+    }
+}
