@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-expressions */
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styles from '../styles/Home.module.scss';
 import { motion } from 'framer-motion';
 import Select from 'react-dropdown-select';
 import '../styles/Select.scss';
-import getCurrencies from '../services/currency';
+import getOptions from '../services/dictionaries';
+import getAreas from '../services/areas';
 
 const Home = () => {
     const selectStyle = {
@@ -14,18 +15,26 @@ const Home = () => {
         backgroundColor: '#FAFAFB',
     };
 
-    const [currency, setCurrency] = useState([]);
+    const [options, setOptions] = useState([]);
+    const [areas, setAreas] = useState([]);
+
+    const [area, setArea] = useState(null);
+    const [salary, setSalary] = useState(null);
+    const [currency, setCurrency] = useState(null);
+    const [experience, setExperience] = useState(null);
+    const [employment, setEmployment] = useState(null);
+    const [schedule, setSchedule] = useState(null);
 
     useEffect(() => {
-        async function fetchCurrencies() {
-            const currencies = await getCurrencies();
-            setCurrency(currencies);
+        async function fetchOptions() {
+            const options = await getOptions();
+            const areas = await getAreas();
+            setOptions(options);
+            setAreas(areas);
         }
 
-        fetchCurrencies();
+        fetchOptions();
     }, []);
-
-    const options = currency // +++++++++++++++++++++
 
     return (
         <motion.div
@@ -38,7 +47,14 @@ const Home = () => {
             <div className={styles.sideBar}>
                 <div className={styles.sideBar__header}>
                     <div className={styles.sideBar__header__text}>Фильтр</div>
-                    <div className={styles.sideBar__header__reset}>
+                    <div className={styles.sideBar__header__reset} onClick={() => {
+                        console.log(area);
+                        console.log(salary);
+                        console.log(currency);
+                        console.log(experience);
+                        console.log(employment);
+                        console.log(schedule);
+                    }}>
                         Сбросить
                     </div>
                 </div>
@@ -48,8 +64,10 @@ const Home = () => {
                         style={selectStyle}
                         className="reactDropdownSelect"
                         placeholder="Все регионы"
-                        options={options}
-                        //onChange={(values) => this.onChange(values)}
+                        options={areas}
+                        onChange={(values) => {
+                            setArea(values[0] ? values[0].value : null);
+                        }}
                     />
                 </div>
                 <div className={styles.sideBar__area}>
@@ -61,6 +79,13 @@ const Home = () => {
                         <input
                             type="text"
                             className={styles.sideBar__area__input__element}
+                            onChange={(event) => {
+                                setSalary(
+                                    event.target.value
+                                        ? event.target.value
+                                        : null
+                                );
+                            }}
                         ></input>
                     </div>
                 </div>
@@ -70,8 +95,10 @@ const Home = () => {
                         style={selectStyle}
                         className="reactDropdownSelect"
                         placeholder="Не важно"
-                        options={currency}
-                        //onChange={(values) => this.onChange(values)}
+                        options={options.currencies}
+                        onChange={(values) => {
+                            setCurrency(values[0] ? values[0].value : null);
+                        }}
                     />
                 </div>
                 <div className={styles.sideBar__area}>
@@ -82,8 +109,10 @@ const Home = () => {
                         style={selectStyle}
                         className="reactDropdownSelect"
                         placeholder="Не важно"
-                        options={options}
-                        //onChange={(values) => this.onChange(values)}
+                        options={options.experience}
+                        onChange={(values) => {
+                            setExperience(values[0] ? values[0].value : null);
+                        }}
                     />
                 </div>
                 <div className={styles.sideBar__area}>
@@ -92,8 +121,10 @@ const Home = () => {
                         style={selectStyle}
                         className="reactDropdownSelect"
                         placeholder="Не важно"
-                        options={options}
-                        //onChange={(values) => this.onChange(values)}
+                        options={options.employment}
+                        onChange={(values) => {
+                            setEmployment(values[0] ? values[0].value : null);
+                        }}
                     />
                 </div>
                 <div className={styles.sideBar__area}>
@@ -104,8 +135,10 @@ const Home = () => {
                         style={selectStyle}
                         className="reactDropdownSelect"
                         placeholder="Не важно"
-                        options={options}
-                        //onChange={(values) => this.onChange(values)}
+                        options={options.schedule}
+                        onChange={(values) => {
+                            setSchedule(values[0] ? values[0].value : null);
+                        }}
                     />
                 </div>
             </div>
