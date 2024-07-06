@@ -11,6 +11,7 @@ async function getVacancies(
     experience = null,
     schedule = null
 ) {
+    console.log(page);
     const url =
         `https://api.hh.ru/vacancies?text=${text}&per_page=${perPage}&page=${page}` +
         `${salary ? `&salary=${salary}` : ''}` +
@@ -22,6 +23,8 @@ async function getVacancies(
 
     const response = await fetch(url);
     const data = await response.json();
+
+    console.log(data);
 
     data.items.forEach((item) => {
         item.created_at = new Date();

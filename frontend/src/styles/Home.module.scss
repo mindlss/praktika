@@ -5,6 +5,27 @@
     align-items: center;
     padding: 0 20px;
 }
+.message {
+    position: absolute;
+    top: 135px;
+    left: 395px;
+    width: calc(100vw - 432px);
+    &__svg {
+        display: block;
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
+    &__text {
+        display: block;
+        font-family: 'Onest', sans-serif;
+        color: #9d9ca0;
+        font-size: 18px;
+        font-weight: 400;
+        text-align: center;
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
+}
 
 .search {
     display: flex;
@@ -12,6 +33,7 @@
     position: absolute;
     top: 77px;
     left: 395px;
+    min-width: 725px;
 
     &__glass {
         position: absolute;
@@ -72,4 +94,13 @@
         font-size: 16px;
         font-weight: 450;
     }
+}
+
+.vacancies {
+    position: absolute;
+    display: block;
+    min-width: 725px;
+    width: calc(100vw - 432px);
+    top: 156px;
+    left: 395px;
 }
