@@ -16,10 +16,7 @@
     
     const Sidebar = ({ onChange }) => {
         const [options, setOptions] = useState([]);
-        const [areas, setAreas] = useState([]);
-    
-        const [isResetting, setIsResetting] = useState(null);
-    
+        const [areas, setAreas] = useState([]);    
         const [salary, setSalary] = useState(null);
         const [selectedArea, setSelectedArea] = useState([]);
         const [selectedCurrency, setSelectedCurrency] = useState([]);

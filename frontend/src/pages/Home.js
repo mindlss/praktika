@@ -8,7 +8,7 @@ import Sidebar from '../components/SideBar';
 import Pagination from '../components/Pagination';
 import { ReactComponent as Glass } from '../assets/glass.svg';
 import { ReactComponent as Loading } from '../assets/loading.svg';
-import getVacancies from '../services/api';
+import getVacancies from '../services/filterApi';
 import createVacancyElements from '../utils/vacanciesBuilder';
 
 const Home = () => {
