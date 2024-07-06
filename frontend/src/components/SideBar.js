@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import styles from '../styles/Home.module.scss';
+import styles from '../styles/Sidebar.module.scss';
 import Select from 'react-dropdown-select';
 import '../styles/Select.scss';
 import getOptions from '../services/dictionaries';
