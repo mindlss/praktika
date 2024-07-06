@@ -16,6 +16,7 @@ async function getVacancies(
         `https://api.hh.ru/vacancies?text=${text}&per_page=${perPage}&page=${page}` +
         `${salary ? `&salary=${salary}` : ''}` +
         `${currency ? `&currency=${currency}` : ''}` +
+        `${salary ? `&only_with_salary=true` : ''}` +
         `${area ? `&area=${area}` : ''}` +
         `${employment ? `&employment=${employment}` : ''}` +
         `${experience ? `&experience=${experience}` : ''}` +
