@@ -1,13 +1,15 @@
 const headhunterService = require('../services/headhunter');
 const vacancyService = require('../services/vacancyService');
+const { normalizeVacancyQuery } = require('../utils/validators');
+const { handleError } = require('../utils/errorHandler');
 
 const DEFAULT_LIMIT = 50;
 
 /**
- * Controller for vacancies-related endpoints.
+ * Controller for handling vacancies-related endpoints.
  * Responsibilities:
  *  - Validate and normalize HTTP request parameters
- *  - Call external service (headhunterService) to fetch vacancies
+ *  - Call external API (headhunterService) to fetch vacancies
  *  - Persist vacancies via vacancyService
  *  - Return structured HTTP responses
  */
@@ -18,63 +20,9 @@ class VacanciesController {
     }
 
     /**
-     * Parse and normalize query parameters from request
-     *
-     * @param {Object} query - req.query object
-     * @returns {Object} normalized query parameters
-     * @throws {Error} with status=400 if required fields are missing
-     */
-    _parseVacancyQuery(query = {}) {
-        const name = (query.name || '').trim();
-        if (!name) {
-            const err = new Error('Name is required');
-            err.status = 400;
-            throw err;
-        }
-
-        const page = Number.isNaN(Number(query.page))
-            ? 0
-            : Math.max(0, parseInt(query.page, 10));
-        const limit = Number.isNaN(Number(query.limit))
-            ? DEFAULT_LIMIT
-            : Math.max(1, parseInt(query.limit, 10));
-        const salary = query.salary !== undefined ? query.salary : null;
-
-        return {
-            text: name,
-            page,
-            perPage: limit,
-            salary,
-            currency: query.currency || null,
-            area: query.area || null,
-            employment: query.employment || null,
-            experience: query.experience || null,
-            schedule: query.schedule || null,
-        };
-    }
-
-    /**
-     * Centralized error handler
-     *
-     * @param {Object} res - Express response object
-     * @param {Error} err - error to handle
-     * @returns {Object} Express response
-     */
-    _handleError(res, err) {
-        const status = err && err.status ? err.status : 500;
-        if (status >= 400 && status < 500) {
-            return res
-                .status(status)
-                .json({ error: err.message || 'Bad Request' });
-        }
-        console.error(err);
-        return res.status(500).send('Internal Server Error');
-    }
-
-    /**
      * GET /vacancies
      *
-     * Fetch vacancies from HeadHunter API using object-style parameters,
+     * Fetch vacancies from HeadHunter API using normalized query parameters,
      * persist results in DB, and return payload to client.
      *
      * @param {Object} req - Express request object
@@ -83,7 +31,7 @@ class VacanciesController {
      */
     async getVacancies(req, res) {
         try {
-            const options = this._parseVacancyQuery(req.query);
+            const options = normalizeVacancyQuery(req.query, DEFAULT_LIMIT);
 
             const data = await headhunterService.getVacancies(options);
 
@@ -94,7 +42,7 @@ class VacanciesController {
 
             return res.json(data);
         } catch (err) {
-            return this._handleError(res, err);
+            return handleError(res, err);
         }
     }
 
@@ -109,13 +57,12 @@ class VacanciesController {
      */
     async getAllVacancies(req, res) {
         try {
-            const page = Number.isNaN(Number(req.query.page))
-                ? 0
-                : Math.max(0, parseInt(req.query.page, 10));
-            const limit = DEFAULT_LIMIT;
+            const page = require('../utils/validators').normalizePage(
+                req.query.page
+            );
 
             const { vacancies, totalVacancies, totalPages } =
-                await vacancyService.getPaged(page, limit);
+                await vacancyService.getPaged(page, DEFAULT_LIMIT);
 
             return res.json({
                 info: {
@@ -126,7 +73,7 @@ class VacanciesController {
                 vacancies,
             });
         } catch (err) {
-            return this._handleError(res, err);
+            return handleError(res, err);
         }
     }
 }
